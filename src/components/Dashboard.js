@@ -118,6 +118,79 @@ class Dashboard extends Component {
               </tbody>
             </table> */}
         <div className='info'>
+        <div
+            class='mw9 center ph3-ns'
+            style={{
+              padding: 0,
+              margin: 0,
+              maxWidth: '100vw'
+            }}
+          >
+            <div
+              class='cf ph2-ns'
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                padding: 0,
+                margin: 0,
+                maxWidth: '100vw'
+              }}
+            >
+              
+              <div class='fl pa2' style={{ width: '33%' }}>
+                <div class='bg-white pv4'>
+                  <article class='mw5 mw6-ns hidden ba mv4'>
+                    <h1 class='f4 bg-near-black white mv0 pv2 ph3'>
+                      Welcome, {this.state.name}
+                    </h1>
+                    <div class='pa3 bt'>
+                      <p class='f6 f5-ns lh-copy measure mv0'>
+                        Username : {this.state.username} <br />
+                        Name : {this.state.name} <br />
+                        SSN : {this.state.ssn} <br />
+                      </p>
+                    </div>
+                  </article>
+                </div>
+              </div>
+              <div class='fl pa2' style={{ width: '33%' }}>
+                <div class='bg-white pv4'>
+                <code>
+                <table class='collapse ba br2 b--black-10 pv2 ph3 mt4'>
+                  <tbody>
+                    <tr class='striped--near-white '>
+                      <th class='pv2 ph3 tl f6 fw6 ttu'>Description</th>
+                      <th class='tr f6 ttu fw6 pv2 ph3'>Amount</th>
+                    </tr>
+                    {this.state.transactions.length > 0 &&
+                      this.state.transactions.map((txn, id) => (
+                        <tr key={id} class='striped--near-white '>
+                          <td class='pv2 ph3'>
+                            {txn.type == 'WITHDRAW'
+                              ? `Withdrawal from ${
+                                txn.from.type == 'CHECKING'
+                                  ? 'Checking Balance'
+                                  : 'Savings Balance'
+                              }`
+                              : txn.type == 'DEPOSIT'
+                                ? `Deposited to ${
+                                  txn.to.type == 'CHECKING'
+                                    ? 'Checking Balance'
+                                    : 'Savings Balance'
+                                }`
+                                : `Transfer to ${txn.to.id}`}
+                          </td>
+
+                          <td class='pv2 ph3'>${txn.amount}</td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </code>
+                </div>
+              </div>
+            </div>
+          </div>
           <div
             class='mw9 center ph3-ns'
             style={{
@@ -136,22 +209,7 @@ class Dashboard extends Component {
                 maxWidth: '100vw'
               }}
             >
-              <div class='fl pa2' style={{ width: '33%' }}>
-                <div class='bg-white pv4'>
-                  <article class='mw5 mw6-ns hidden ba mv4'>
-                    <h1 class='f4 bg-near-black white mv0 pv2 ph3'>
-                      User Info
-                    </h1>
-                    <div class='pa3 bt'>
-                      <p class='f6 f5-ns lh-copy measure mv0'>
-                        Username : {this.state.username} <br />
-                        Name : {this.state.name} <br />
-                        SSN : {this.state.ssn} <br />
-                      </p>
-                    </div>
-                  </article>
-                </div>
-              </div>
+              
               <div class='fl pa2' style={{ width: '33%' }}>
                 <div class='bg-white pv4'>
                   <article class='mw5 mw6-ns hidden ba mv4'>
@@ -214,92 +272,28 @@ class Dashboard extends Component {
               </div>
             </div>
           </div>
+          
 
-          <div class='flex justify-around'>
-            {/* <div class="outline w-25 pa3 mr2"> */}
-            <article class='mw5 mw6-ns hidden ba mv4'>
-              <h1 class='f4 bg-near-black white mv0 pv2 ph3'>Bill Pay</h1>
-              <div class='pa3 bt'>
-                <p class='f6 f5-ns lh-copy measure mv0'>
-                  {/* Balance : $10,000 <br/> */}
-                  <a class='f6 link dim ba ph3 pv2 mb2 dib black' href='#0'>
-                    Xfinity
-                  </a>
-                  <a class='f6 link dim ba ph3 pv2 mb2 dib black' href='#0'>
-                    PG $ E
-                  </a>{' '}
-                  <br />
-                  <a class='f6 link dim ba ph3 pv2 mb2 dib black' href='#0'>
-                    Walmart
-                  </a>
-                  <a class='f6 link dim ba ph3 pv2 mb2 dib black' href='#0'>
-                    VISA
-                  </a>{' '}
-                  <br />
-                  <a class='f6 link dim ba ph3 pv2 mb2 dib black' href='#0'>
-                    Mastercard
-                  </a>
-                </p>
+          {/* <div class='flex justify-between'>
+            
+            <div class='w-50 pa2' style={{ width: '33%' }}>
+                <div class='bg-white pv4'>
+                  <article class='mw5 mw6-ns hidden ba mv4'>
+                    <h1 class='f4 bg-near-black white mv0 pv2 ph3'>
+                      User Info
+                    </h1>
+                    <div class='pa3 bt'>
+                      <p class='f6 f5-ns lh-copy measure mv0'>
+                        Username : {this.state.username} <br />
+                        Name : {this.state.name} <br />
+                        SSN : {this.state.ssn} <br />
+                      </p>
+                    </div>
+                  </article>
+                </div>
               </div>
-            </article>
-            {/* </div> */}
-            <div>
-              <form accept-charset='utf-8' onSubmit={this.deposit}>
-                <fieldset id='sign_up' class='ba b--transparent ph0 mh0'>
-                  <legend class='ph0 mh0 fw6 clip'>Transfer</legend>
-                  <div class='mt3'>
-                    <label class='db fw4 lh-copy f6' for='email-address'>
-                      Transfer Amount
-                    </label>
-                    <input
-                      class='pa2 input-reset ba bg-transparent w-100 measure'
-                      type='number'
-                      name='amount'
-                      id='email-address'
-                      value={amount}
-                      onChange={this.onChange}
-                    />
-                  </div>
-                  <div class='mt3'>
-                    <label class='db fw4 lh-copy f6' for='email-address'>
-                      From
-                    </label>
-                    <input
-                      class='pa2 input-reset ba bg-transparent w-100 measure'
-                      type='text'
-                      name='from'
-                      id='email-address'
-                      value={from}
-                      onChange={this.onChange}
-                      required
-                    />
-                  </div>
-                  <div class='mt3'>
-                    <label class='db fw4 lh-copy f6' for='email-address'>
-                      To
-                    </label>
-                    <input
-                      class='pa2 input-reset ba bg-transparent w-100 measure'
-                      type='text'
-                      name='to'
-                      id='email-address'
-                      value={to}
-                      onChange={this.onChange}
-                      required
-                    />
-                  </div>
-                </fieldset>
-                <a
-                  class='f6 link dim ph3 pv2 mb2 dib white bg-black'
-                  onClick={this.depositMoney}
-                >
-                  Transfer
-                </a>
-
-                {/* <button onClick={this.depositMoney}></button> */}
-              </form>
-            </div>
-            <div class='w-25 pa3 mr2'>
+            
+            <div class='w-100 pa3 mr2'>
               <code>
                 <table class='collapse ba br2 b--black-10 pv2 ph3 mt4'>
                   <tbody>
@@ -333,7 +327,7 @@ class Dashboard extends Component {
                 </table>
               </code>
             </div>
-          </div>
+          </div> */}
         </div>
 
         <footer class='pa4 pa5-l black-70 bt b--black-10'>
